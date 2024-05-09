@@ -21,27 +21,30 @@ import static org.example.common.Color.ORANGE;
  * Hello world!
  */
 public class App {
-	public static void main(String[] args) {
-		Topic topic = new TopicImpl("interview-result");
-		Producer producer = new ProducerImpl(topic);
 
-		Subscriber subscriber = new SubscriberImpl("phandinhthe1991@gmail.com", Color.GREEN);
-		subscriber.register(topic);
-		Subscriber redSubscriber = new SubscriberImpl("terry_phan1991@gmail.com", Color.RED);
-		redSubscriber.register(topic);
-		Subscriber yellowSubscriber = new SubscriberImpl("phandinhthe1991@gmail.com", Color.YELLOW);
-		yellowSubscriber.register(topic);
-		Subscriber magentaSubscriber = new SubscriberImpl("phandinhthe1991@gmail.com", Color.MAGENTA);
-		magentaSubscriber.register(topic);
+	public static final long DEFAULT_TIMEOUT = 11_000L;
+
+	public static void main(String[] args) {
+		Topic interviewResultTopic = new TopicImpl();
+		Producer producer = new ProducerImpl(interviewResultTopic);
+
+		Subscriber subscriber = new SubscriberImpl("Terry", Color.GREEN);
+		subscriber.register(interviewResultTopic);
+		Subscriber redSubscriber = new SubscriberImpl("The", Color.VIOLET);
+		redSubscriber.register(interviewResultTopic);
+		Subscriber yellowSubscriber = new SubscriberImpl("Phan", Color.YELLOW);
+		yellowSubscriber.register(interviewResultTopic);
+		Subscriber magentaSubscriber = new SubscriberImpl("Frank", Color.RED);
+		magentaSubscriber.register(interviewResultTopic);
 
 
 		String[] messages = new String[]{
-				"Hello Phan!",
-				"You made the incredible performance in the interviews",
-				"Your skills and knowledge, experience are what we need",
-				"Here is our offer letter for you..."};
+				"Hello ... my everything!",
+				"How are you?",
+				"I want to say some greetings...",
+				"I miss you... my everything..."};
 
-		demoTopicPubSub(topic, messages, producer);
+		demoTopicPubSub(interviewResultTopic, messages, producer);
 
 
 	}
@@ -52,11 +55,11 @@ public class App {
 				+ BLACK.encodedColor()
 		);
 		long start = System.currentTimeMillis();
-		try (ExecutorService service = Executors.newFixedThreadPool(2)) {
+		try (ExecutorService service = Executors.newFixedThreadPool(4)) {
 			service.submit(topic::process);
 			service.submit(() -> Stream.of(messages).forEach(producer::produce));
 
-			if (!service.awaitTermination(6000L, TimeUnit.MILLISECONDS)) {
+			if (!service.awaitTermination(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)) {
 				ManualThread.stop((ManualThread) topic);
 			}
 		} catch (InterruptedException e) {

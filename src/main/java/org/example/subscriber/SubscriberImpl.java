@@ -16,7 +16,7 @@ public class SubscriberImpl implements Subscriber {
 	public void process(String message) {
 		try {
 			Thread.sleep(1000L);
-			System.out.printf(color.encodedColor() + "... %s has subscribed '%s' ...\n\n" + Color.BLACK.encodedColor(), name, message);
+			System.out.printf(color.encodedColor() + "... %s has acquired lock and subscribed '%s' ...\n\n" + Color.BLACK.encodedColor(), name, message);
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 			e.printStackTrace();

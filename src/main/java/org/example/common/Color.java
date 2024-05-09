@@ -6,7 +6,8 @@ public enum Color {
 	RED("\u001B[31m"),
 	GREEN("\u001B[32m"),
 	YELLOW("\u001B[38;5;11m"),
-	MAGENTA("\u001B[38;5;201m");
+	MAGENTA("\u001B[38;5;201m"),
+	VIOLET("\u001B[38;5;093m");
 
 	private final String encodedColor;
 
